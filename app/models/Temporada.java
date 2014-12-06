@@ -25,13 +25,16 @@ public class Temporada {
     @Column
     private int numero;
 
+    @Column
+    private int episodiosAssistidos;
+
     public Temporada() {
     }
 
     public Temporada(Serie serie, int numero) {
         this.serie = serie;
-
         this.numero = numero;
+        this.episodiosAssistidos = 0;
         episodios = new ArrayList<Episodio>();
     }
 
@@ -72,6 +75,18 @@ public class Temporada {
     }
 
     public void adicionaEpisodio(Episodio episodio) {episodios.add(episodio);}
+
+    public int getEpisodiosAssistidos() {
+        return episodiosAssistidos;
+    }
+
+    public void setEpisodiosAssistidos(int episodiosAssistidos) {
+        this.episodiosAssistidos = episodiosAssistidos;
+    }
+
+    public void addEpisodioAssistido(){
+        this.episodiosAssistidos++;
+    }
 
     public void reverseEpisodios() {
         Collections.reverse(episodios);

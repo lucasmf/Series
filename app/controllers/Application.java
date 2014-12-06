@@ -2,6 +2,7 @@ package controllers;
 
 import models.Episodio;
 import models.Serie;
+import models.Temporada;
 import models.dao.GenericDAO;
 import play.*;
 import play.db.jpa.Transactional;
@@ -18,6 +19,11 @@ public class Application extends Controller {
     @Transactional
     public static Result index() {
         List<Serie> series = dao.findAllByClass(Serie.class);
+        for(Serie serie:series){
+            for(Temporada temporada:serie.getTemporadas()) {
+                temporada.reverseEpisodios();
+            }
+        }
         return ok(index.render(series));
     }
 
@@ -35,10 +41,16 @@ public class Application extends Controller {
         episodio.setAssistido(2);
         Episodio next = episodio.getNext();
         if(next != null) {
-            next.setAssistido(1);
-            dao.merge(next);
+            if(next.getAssistido() != 2) {
+                next.setAssistido(1);
+                dao.merge(next);
+            }
         }
         dao.merge(episodio);
+        dao.flush();
+        Temporada temporada = episodio.getTemporada();
+        temporada.addEpisodioAssistido();
+        dao.merge(temporada);
         dao.flush();
         return redirect(routes.Application.index());
     }

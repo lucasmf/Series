@@ -62,10 +62,10 @@ public class AuxGlobal {
                     episode = episode.getNext();
                     season.adicionaEpisodio(episode);
                 } else {
+                    season.reverseEpisodios();
                     season = new Temporada(show, seasonNumber);
                     episode = new Episodio(season, episodeName,episodeNumber);
                     season.adicionaEpisodio(episode);
-                    //season.reverseEpisodios();
                     show.adicionaTemporada(season);
                 }
             } else {

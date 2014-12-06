@@ -67,13 +67,13 @@ public class ApplicationTest {
         assertThat(temporadas.get(1).getNumero()).isEqualTo(2);
     }
 
-    /*@Test
+    @Test
     public void episodiosDevemComecarOrdenados() {
         List<Serie> series = dao.findAllByClass(Serie.class);
         List<Episodio> episodios = series.get(0).getTemporadas().get(0).getEpisodios();
-        assertThat(episodios.get(0).getNome()).isEqualTo("Cartman Gets an Anal Probe");
-        assertThat(episodios.get(1).getNome()).isEqualTo("Weight Gain 4000");
-    }*/
+        assertThat(episodios.get(0).getNome()).isEqualTo("Cartman's Mom is a Dirty Slut");
+        assertThat(episodios.get(1).getNome()).isEqualTo("Mecha-Streisand");
+    }
 
     @Test
     public void simpleCheck() {
