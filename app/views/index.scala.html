@@ -1,0 +1,125 @@
+@(series: List[Serie])
+
+<html lang="">
+    <head>
+        <title>Gerenciador de Series</title>
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    </head>
+    <body>
+
+        <div class="col-md-6">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Séries disponíveis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(serie <- series) {
+                       @if(serie.getAssistida == 0) {
+                           <tr>
+                               <td>
+                                   <div class="panel panel-default">
+                                       <div class="panel-heading">
+                                           <h3 class="panel-title">@serie.getNome()
+                                               <span class="pull-right">
+                                                   <form action="@routes.Application.assistirSerie(serie.getId())" method="post">
+                                                       <button class="btn btn-danger" id="assistir">
+                                                           <span class="glyphicon glyphicon-play"></span>
+                                                       </button>
+                                                   </form>
+                                               </span>
+                                           </h3>
+                                       </div>
+                                       <div class="panel-body">
+                                           <ul class="list-group">
+                                           @for(temporada <- serie.getTemporadas()) {
+
+                                               <li class="list-group-item">@temporada.getNumero() ª Temporada</li>
+
+                                           }
+                                           </ul>
+                                       </div>
+                                   </div>
+                               </td>
+                           </tr>
+                       }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Assistindo séries</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(serie <- series) {
+                    @if(serie.getAssistida == 1) {
+                        <tr>
+                            <td>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">@serie.getNome()
+
+                                        </h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <ul class="list-group">
+                                            @for(temporada <- serie.getTemporadas()) {
+
+                                                <li class="list-group-item">
+                                                        <!-- Small button group -->
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                                            @temporada.getNumero ª Temporada <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu" role="menu">
+
+                                                            @for(episodio <- temporada.getEpisodios) {
+                                                                <li>
+                                                                    @if(episodio.getAssistido == 0) {
+                                                                        <form action="@routes.Application.assistirEpisodio(episodio.getId())" method="post">
+                                                                            @episodio.getNumero - @episodio.getNome
+                                                                            <button class="btn btn-danger btn-xs" id="assistirEpisodio">
+                                                                                <span class="glyphicon glyphicon-play"></span>
+                                                                            </button>
+                                                                        </form>
+                                                                    }
+                                                                    @if(episodio.getAssistido == 1) {
+                                                                        <form action="@routes.Application.assistirEpisodio(episodio.getId())" method="post">
+                                                                            @episodio.getNumero - @episodio.getNome
+                                                                            <button class="btn btn-warning btn-xs" id="assistirEpisodio">
+                                                                                <span class="glyphicon glyphicon-play"></span>
+                                                                            </button>
+                                                                        </form>
+                                                                    }
+                                                                    @if(episodio.getAssistido == 2) {
+                                                                        @episodio.getNumero - @episodio.getNome
+                                                                        <span class="glyphicon glyphicon-ok"></span>
+                                                                    }
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </li>
+
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+
+            <!-- jQuery -->
+        <script src="http://code.jquery.com/jquery.js"></script>
+            <!-- Bootstrap JavaScript -->
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    </body>
+</html>
